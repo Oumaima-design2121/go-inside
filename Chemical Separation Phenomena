@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chemical Phenomena: Occlusion, Inclusion, Coprecipitation & Adsorption</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #fdf6f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+            color: white;
+            padding: 20px 0;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2);
+            margin-bottom: 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 90%;
+        }
+        
+        .phenomena-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .phenomenon-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #e91e63;
+        }
+        
+        .phenomenon-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.12);
+        }
+        
+        .phenomenon-card h3 {
+            color: #880e4f;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #fce4ec;
+            padding-bottom: 8px;
+        }
+        
+        .phenomenon-card p {
+            color: #555;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            color: #e91e63;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.08);
+        }
+        
+        .demo-section h2 {
+            color: #880e4f;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(to bottom, #fce4ec, #f8bbd9);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 2px solid #f48fb1;
+            touch-action: none;
+        }
+        
+        .animation-area {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .molecule {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.7rem;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            user-select: none;
+        }
+        
+        .main-crystal {
+            width: 100px;
+            height: 100px;
+            background: rgba(63, 81, 181, 0.9);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            border: 2px solid white;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .secondary-crystal {
+            width: 80px;
+            height: 80px;
+            background: rgba(63, 81, 181, 0.8);
+            position: absolute;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            border: 2px solid white;
+            z-index: 9;
+        }
+        
+        .impurity {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 87, 34, 0.9);
+        }
+        
+        .solvent {
+            width: 20px;
+            height: 20px;
+            background: rgba(76, 175, 80, 0.9);
+        }
+        
+        .adsorbed {
+            width: 22px;
+            height: 22px;
+            background: rgba(156, 39, 176, 0.9);
+        }
+        
+        .precipitate-particle {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 152, 0, 0.9);
+            border-radius: 4px;
+        }
+        
+        .soluble-impurity {
+            width: 22px;
+            height: 22px;
+            background: rgba(233, 30, 99, 0.9);
+            border: 2px dashed white;
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        button {
+            padding: 14px 20px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(233, 30, 99, 0.2);
+            width: 100%;
+            touch-action: manipulation;
+        }
+        
+        button:active {
+            background: #c2185b;
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(233, 30, 99, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #880e4f;
+        }
+        
+        .btn-secondary:active {
+            background: #560027;
+        }
+        
+        .btn-message {
+            background: linear-gradient(135deg, #e91e63 0%, #ff4081 100%);
+            font-size: 1.1rem;
+            padding: 16px 25px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 50px;
+            box-shadow: 0 6px 15px rgba(233, 30, 99, 0.3);
+            width: 90%;
+            max-width: 300px;
+        }
+        
+        .comparison-table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.05);
+        }
+        
+        .comparison-table th {
+            background: #ad1457;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #fce4ec;
+            font-size: 0.9rem;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background: #fce4ec;
+        }
+        
+        .comparison-table tr:active {
+            background: #f8bbd9;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #ad1457;
+            border-top: 1px solid #f8bbd9;
+            font-size: 0.85rem;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .key-point {
+            background: #fce4ec;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #e91e63;
+        }
+        
+        .key-point h4 {
+            color: #880e4f;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .key-point p {
+            font-size: 0.9rem;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            background: white;
+            padding: 6px 10px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 130px;
+            max-width: 150px;
+        }
+        
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .crystal-legend {
+            background: #3f51b5;
+        }
+        
+        .impurity-legend {
+            background: #ff5722;
+        }
+        
+        .solvent-legend {
+            background: #4caf50;
+        }
+        
+        .adsorbed-legend {
+            background: #9c27b0;
+        }
+        
+        .precipitate-legend {
+            background: #ff9800;
+            border-radius: 3px;
+        }
+        
+        .soluble-legend {
+            background: #e91e63;
+            border: 2px dashed white;
+        }
+        
+        .demo-info {
+            background: #fce4ec;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .demo-info h3 {
+            color: #880e4f;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .demo-info p {
+            font-size: 0.9rem;
+        }
+        
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .message-content {
+            background: linear-gradient(135deg, #fdf6f9 0%, white 100%);
+            padding: 30px 20px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 4px solid #e91e63;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .message-content h3 {
+            color: #e91e63;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .message-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 20px;
+            font-style: italic;
+            padding: 0 10px;
+        }
+        
+        .close-message {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #e91e63;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .message-icon {
+            font-size: 2.5rem;
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+        
+        /* Tablet and larger mobile devices */
+        @media (min-width: 480px) {
+            .phenomena-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            button {
+                width: calc(50% - 5px);
+            }
+            
+            .video-container {
+                height: 400px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Tablet devices */
+        @media (min-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            header {
+                padding: 25px 0;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                max-width: 100%;
+            }
+            
+            .phenomena-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 25px;
+            }
+            
+            .video-container {
+                height: 450px;
+            }
+            
+            .controls {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            button {
+                width: auto;
+                padding: 12px 20px;
+            }
+            
+            .key-points {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .legend-item {
+                min-width: 140px;
+            }
+        }
+        
+        /* Desktop devices */
+        @media (min-width: 1024px) {
+            .video-container {
+                height: 500px;
+            }
+            
+            .controls {
+                gap: 15px;
+            }
+            
+            button:hover {
+                background: #c2185b;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(233, 30, 99, 0.3);
+            }
+            
+            .btn-secondary:hover {
+                background: #560027;
+            }
+            
+            .phenomenon-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(233, 30, 99, 0.12);
+            }
+            
+            .comparison-table tr:hover {
+                background: #f8bbd9;
+            }
+        }
+        
+        /* Very small mobile devices */
+        @media (max-width: 360px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .video-container {
+                height: 300px;
+            }
+            
+            .main-crystal {
+                width: 80px;
+                height: 80px;
+                font-size: 0.8rem;
+            }
+            
+            .secondary-crystal {
+                width: 60px;
+                height: 60px;
+                font-size: 0.7rem;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .legend-item {
+                min-width: 120px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1>Chemical Separation Phenomena</h1>
+                    <p class="subtitle">Understanding Occlusion, Inclusion, Coprecipitation, and Adsorption</p>
+                </div>
+                <div>
+                    <i class="fas fa-flask" style="font-size: 2.5rem; opacity: 0.8;"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="phenomena-grid">
+            <div class="phenomenon-card">
+                <div class="icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3>Occlusion</h3>
+                <p>The physical trapping of foreign substances within a growing crystal lattice during crystallization. These trapped molecules or ions are not part of the crystal structure but are enclosed within it.</p>
+            </div>
+            
+            <div class="phenomenon-card">
+                <div class="icon">
+                    <i class="fas fa-box-open"></i>
+                </div>
+                <h3>Inclusion</h3>
+                <p>The incorporation of foreign atoms or molecules into the crystal lattice during its formation. Unlike occlusion, inclusions are part of the crystal structure and may replace lattice sites.</p>
+            </div>
+            
+            <div class="phenomenon-card">
+                <div class="icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h3>Coprecipitation</h3>
+                <p>The precipitation of a normally soluble compound along with an insoluble compound during a precipitation reaction. This occurs when impurities are carried down with the precipitate.</p>
+            </div>
+            
+            <div class="phenomenon-card">
+                <div class="icon">
+                    <i class="fas fa-magnet"></i>
+                </div>
+                <h3>Adsorption</h3>
+                <p>The adhesion of atoms, ions, or molecules from a gas, liquid, or dissolved solid to a surface. This process creates a film of the adsorbate on the surface of the adsorbent.</p>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2><i class="fas fa-video"></i> Molecular Visualization</h2>
+            <p>Watch the animation below to understand how these phenomena occur at the molecular level. The blue crystal represents the main compound, red dots are impurities, green dots are solvent molecules, orange squares are precipitate, pink dots are soluble impurities, and purple dots are adsorbed particles.</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color crystal-legend"></div>
+                    <span>Crystal</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color impurity-legend"></div>
+                    <span>Insoluble Impurities</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color soluble-legend"></div>
+                    <span>Soluble Impurities</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color solvent-legend"></div>
+                    <span>Solvent Molecules</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color adsorbed-legend"></div>
+                    <span>Adsorbed Particles</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color precipitate-legend"></div>
+                    <span>Precipitate</span>
+                </div>
+            </div>
+            
+            <div class="video-container">
+                <div class="animation-area" id="animationArea">
+                    <!-- Main Crystal -->
+                    <div class="molecule main-crystal" id="mainCrystal">
+                        MAIN PRECIPITATE
+                    </div>
+                    
+                    <!-- Molecules will be generated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="occlusionBtn">
+                    <i class="fas fa-gem"></i> Occlusion
+                </button>
+                <button id="inclusionBtn">
+                    <i class="fas fa-box-open"></i> Inclusion
+                </button>
+                <button id="coprecipitationBtn">
+                    <i class="fas fa-layer-group"></i> Coprecipitation
+                </button>
+                <button id="adsorptionBtn">
+                    <i class="fas fa-magnet"></i> Adsorption
+                </button>
+                <button id="resetBtn" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <div class="demo-info">
+                <h3 id="currentDemoTitle">Select a phenomenon to visualize</h3>
+                <p id="currentDemoDescription">Click on any of the buttons above to see a visualization of how each phenomenon occurs at the molecular level.</p>
+            </div>
+        </section>
+        
+        <section class="demo-section">
+            <h2><i class="fas fa-table"></i> Comparison of Chemical Phenomena</h2>
+            <div class="comparison-table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Phenomenon</th>
+                            <th>Mechanism</th>
+                            <th>Reversibility</th>
+                            <th>Common Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Occlusion</strong></td>
+                            <td>Physical entrapment during crystal growth</td>
+                            <td>Irreversible without crystal dissolution</td>
+                            <td>Trapped solvent in crystals, gas bubbles in ice</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inclusion</strong></td>
+                            <td>Incorporation into crystal lattice sites</td>
+                            <td>Generally irreversible</td>
+                            <td>Dopants in semiconductors, alloy formation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Coprecipitation</strong></td>
+                            <td>Soluble impurities carried down with insoluble precipitate</td>
+                            <td>Can be reversible with redissolution</td>
+                            <td>Barium sulfate with potassium nitrate, analytical chemistry</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adsorption</strong></td>
+                            <td>Surface adhesion via physical or chemical forces</td>
+                            <td>Often reversible (physisorption) or irreversible (chemisorption)</td>
+                            <td>Activated carbon filters, chromatography, catalysis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="key-points">
+                <div class="key-point">
+                    <h4><i class="fas fa-exclamation-circle"></i> Key Distinction: Occlusion vs Inclusion</h4>
+                    <p>Occlusion involves physical trapping without chemical bonding, while inclusion involves incorporation into the crystal structure, often with some chemical interaction at lattice sites.</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4><i class="fas fa-exclamation-circle"></i> What is Coprecipitation?</h4>
+                    <p>Coprecipitation occurs when a normally soluble impurity gets "carried down" or trapped during the formation of an insoluble precipitate. This is a major challenge in analytical chemistry and purification processes.</p>
+                </div>
+                
+                <div class="key-point">
+                    <h4><i class="fas fa-exclamation-circle"></i> Separation Challenges & Applications</h4>
+                    <p>Occlusion, inclusion, and coprecipitation can make purification difficult, while adsorption is often exploited for separation in techniques like chromatography and filtration systems.</p>
+                </div>
+            </div>
+        </section>
+        
+        <button id="messageBtn" class="btn-message">
+            <i class="fas fa-heart"></i> A Message For You
+        </button>
+    </main>
+    
+    <!-- Message Modal -->
+    <div class="message-modal" id="messageModal">
+        <div class="message-content">
+            <button class="close-message" id="closeMessage">&times;</button>
+            <div class="message-icon">
+                <i class="fas fa-star" id="messageIcon"></i>
+            </div>
+            <h3>Motivational Message</h3>
+            <div class="message-text" id="messageText">
+                <!-- Message will be inserted here -->
+            </div>
+            <p><em>Tap outside or the X to close</em></p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Educational Tool: Chemical Separation Phenomena</p>
+            <p>This interactive demonstration illustrates the molecular mechanisms of occlusion, inclusion, coprecipitation, and adsorption.</p>
+            <p>© 2023 Chemistry Education | Pink Theme Design</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Get DOM elements for animation
+        const animationArea = document.getElementById('animationArea');
+        const occlusionBtn = document.getElementById('occlusionBtn');
+        const inclusionBtn = document.getElementById('inclusionBtn');
+        const coprecipitationBtn = document.getElementById('coprecipitationBtn');
+        const adsorptionBtn = document.getElementById('adsorptionBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const currentDemoTitle = document.getElementById('currentDemoTitle');
+        const currentDemoDescription = document.getElementById('currentDemoDescription');
+        const mainCrystal = document.getElementById('mainCrystal');
+        
+        // Get DOM elements for message modal
+        const messageBtn = document.getElementById('messageBtn');
+        const messageModal = document.getElementById('messageModal');
+        const closeMessage = document.getElementById('closeMessage');
+        const messageText = document.getElementById('messageText');
+        const messageIcon = document.getElementById('messageIcon');
+        
+        // Variables to track animation state
+        let currentAnimation = null;
+        let molecules = [];
+        let secondaryCrystals = [];
+        
+        // Demo descriptions
+        const demoData = {
+            occlusion: {
+                title: "Occlusion Demonstration",
+                description: "Watch as impurities (red) and solvent molecules (green) become physically trapped within the growing crystal lattice without becoming part of the crystal structure. This occurs during rapid crystal growth when foreign particles are enclosed within the crystal."
+            },
+            inclusion: {
+                title: "Inclusion Demonstration",
+                description: "Observe how impurity atoms (red) replace positions in the crystal lattice, becoming part of the crystal structure itself. This typically happens when impurity ions have similar size and charge to the host crystal ions."
+            },
+            coprecipitation: {
+                title: "Coprecipitation Demonstration",
+                description: "Watch how soluble impurities (pink) that should normally remain dissolved get 'carried down' or trapped during the formation of insoluble precipitate (blue crystals). This is a key challenge in analytical chemistry and purification processes."
+            },
+            adsorption: {
+                title: "Adsorption Demonstration",
+                description: "Watch as particles (purple) adhere to the surface of the crystal without being incorporated into the lattice. This is a surface phenomenon where molecules accumulate at the interface between the crystal and the solution."
+            }
+        };
+        
+        // 100 Motivational Messages
+        const motivationalMessages = [
+            "You are capable of amazing things!",
+            "Believe in yourself and all that you are.",
+            "Your potential is endless.",
+            "Today is your opportunity to build the tomorrow you want.",
+            "Keep going. Everything you need will come to you at the perfect time.",
+            "You are stronger than you think.",
+            "Dream big and dare to fail.",
+            "Your only limit is your mind.",
+            "The secret of getting ahead is getting started.",
+            "Don't wait for opportunity. Create it.",
+            "You are worthy of all the good things that come to you.",
+            "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            "The harder you work for something, the greater you'll feel when you achieve it.",
+            "Don't stop when you're tired. Stop when you're done.",
+            "Wake up with determination. Go to bed with satisfaction.",
+            "The key to success is to focus on goals, not obstacles.",
+            "Dream it. Wish it. Do it.",
+            "Small progress is still progress.",
+            "The future depends on what you do today.",
+            "It's going to be hard, but hard does not mean impossible.",
+            "Don't tell people your plans. Show them your results.",
+            "The only way to do great work is to love what you do.",
+            "You don't have to be great to start, but you have to start to be great.",
+            "The expert in anything was once a beginner.",
+            "Push yourself, because no one else is going to do it for you.",
+            "Great things never come from comfort zones.",
+            "Success doesn't just find you. You have to go out and get it.",
+            "The harder you work, the luckier you get.",
+            "Don't be afraid to give up the good to go for the great.",
+            "The only place where success comes before work is in the dictionary.",
+            "You are braver than you believe, stronger than you seem, and smarter than you think.",
+            "It always seems impossible until it's done.",
+            "Don't let yesterday take up too much of today.",
+            "Learn as if you will live forever, live like you will die tomorrow.",
+            "The man who moves a mountain begins by carrying away small stones.",
+            "If you're offered a seat on a rocket ship, don't ask what seat! Just get on.",
+            "I have not failed. I've just found 10,000 ways that won't work.",
+            "The way to get started is to quit talking and begin doing.",
+            "The pain you feel today will be the strength you feel tomorrow.",
+            "The only limit to our realization of tomorrow will be our doubts of today.",
+            "You miss 100% of the shots you don't take.",
+            "Whether you think you can or you think you can't, you're right.",
+            "The best time to plant a tree was 20 years ago. The second best time is now.",
+            "Your smile is your logo, your personality is your business card, how you leave others feeling after an experience with you becomes your trademark.",
+            "Go the extra mile. It's never crowded.",
+            "The only person you should try to be better than is the person you were yesterday.",
+            "Don't be pushed around by the fears in your mind. Be led by the dreams in your heart.",
+            "Work hard in silence, let your success be your noise.",
+            "If you want to achieve greatness stop asking for permission.",
+            "Things work out best for those who make the best of how things work out.",
+            "To live a creative life, we must lose our fear of being wrong.",
+            "If you are not willing to risk the usual you will have to settle for the ordinary.",
+            "Trust because you are willing to accept the risk, not because it's safe or certain.",
+            "All our dreams can come true if we have the courage to pursue them.",
+            "Good things come to people who wait, but better things come to those who go out and get them.",
+            "If you do what you always did, you will get what you always got.",
+            "Success is walking from failure to failure with no loss of enthusiasm.",
+            "Just when the caterpillar thought the world was ending, she turned into a butterfly.",
+            "Successful entrepreneurs are givers and not takers of positive energy.",
+            "Opportunities don't happen. You create them.",
+            "Try not to become a person of success, but rather try to become a person of value.",
+            "Great minds discuss ideas; average minds discuss events; small minds discuss people.",
+            "I have learned over the years that when one's mind is made up, this diminishes fear.",
+            "The only thing worse than being blind is having sight but no vision.",
+            "The road to success and the road to failure are almost exactly the same.",
+            "You define your own life. Don't let other people write your script.",
+            "You are never too old to set another goal or to dream a new dream.",
+            "If you don't like the road you're walking, start paving another one.",
+            "You can waste your lives drawing lines. Or you can live your life crossing them.",
+            "I alone cannot change the world, but I can cast a stone across the water to create many ripples.",
+            "Nothing is impossible. The word itself says 'I'm possible!'",
+            "I can and I will. Watch me.",
+            "Turn your wounds into wisdom.",
+            "We can do anything we want to if we stick to it long enough.",
+            "The power of imagination makes us infinite.",
+            "Light tomorrow with today.",
+            "Keep your face always toward the sunshine, and shadows will fall behind you.",
+            "Be the change that you wish to see in the world.",
+            "Let us make our future now, and let us make our dreams tomorrow's reality.",
+            "You don't always need a plan. Sometimes you just need to breathe, trust, let go and see what happens.",
+            "The mind is everything. What you think you become.",
+            "The best revenge is massive success.",
+            "Life is 10% what happens to you and 90% how you react to it.",
+            "Limitations live only in our minds. But if we use our imaginations, our possibilities become limitless.",
+            "What you do speaks so loudly that I cannot hear what you say.",
+            "The two most important days in your life are the day you are born and the day you find out why.",
+            "Whatever you are, be a good one.",
+            "The only impossible journey is the one you never begin.",
+            "I attribute my success to this: I never gave or took any excuse.",
+            "Life is what happens to you while you're busy making other plans.",
+            "We become what we think about.",
+            "The most common way people give up their power is by thinking they don't have any.",
+            "The best way to predict the future is to invent it.",
+            "The future belongs to those who believe in the beauty of their dreams.",
+            "You can never cross the ocean until you have the courage to lose sight of the shore.",
+            "The journey of a thousand miles begins with one step.",
+            "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+            "Don't gain the world and lose your soul. Wisdom is better than silver or gold.",
+            "You must be the change you wish to see in the world.",
+            "Happiness is not something ready made. It comes from your own actions.",
+            "The only true wisdom is in knowing you know nothing."
+        ];
+        
+        // Message icons to cycle through
+        const messageIcons = [
+            "fas fa-heart",
+            "fas fa-star",
+            "fas fa-sun",
+            "fas fa-moon",
+            "fas fa-cloud",
+            "fas fa-feather",
+            "fas fa-gem",
+            "fas fa-crown",
+            "fas fa-bolt",
+            "fas fa-dragon",
+            "fas fa-feather-alt",
+            "fas fa-fire",
+            "fas fa-globe",
+            "fas fa-seedling",
+            "fas fa-rainbow"
+        ];
+        
+        // Initialize the animation area with some molecules
+        function initializeMolecules() {
+            clearMolecules();
+            
+            // Create insoluble impurities (red)
+            for (let i = 0; i < 6; i++) {
+                createMolecule('impurity');
+            }
+            
+            // Create soluble impurities (pink) - for coprecipitation
+            for (let i = 0; i < 8; i++) {
+                createMolecule('soluble');
+            }
+            
+            // Create solvent molecules (green)
+            for (let i = 0; i < 10; i++) {
+                createMolecule('solvent');
+            }
+            
+            // Create adsorbed particles (purple)
+            for (let i = 0; i < 6; i++) {
+                createMolecule('adsorbed');
+            }
+            
+            // Create precipitate particles (orange squares)
+            for (let i = 0; i < 4; i++) {
+                createMolecule('precipitate');
+            }
+            
+            // Position molecules randomly
+            positionMoleculesRandomly();
+        }
+        
+        // Create a molecule element
+        function createMolecule(type) {
+            const molecule = document.createElement('div');
+            
+            switch(type) {
+                case 'impurity':
+                    molecule.className = 'molecule impurity';
+                    molecule.textContent = 'X';
+                    break;
+                case 'soluble':
+                    molecule.className = 'molecule soluble-impurity';
+                    molecule.textContent = 'S';
+                    break;
+                case 'solvent':
+                    molecule.className = 'molecule solvent';
+                    molecule.textContent = 'W';
+                    break;
+                case 'adsorbed':
+                    molecule.className = 'molecule adsorbed';
+                    molecule.textContent = 'A';
+                    break;
+                case 'precipitate':
+                    molecule.className = 'molecule precipitate-particle';
+                    molecule.textContent = 'P';
+                    break;
+            }
+            
+            animationArea.appendChild(molecule);
+            
+            molecules.push({
+                element: molecule,
+                type: type,
+                x: 0,
+                y: 0,
+                targetX: 0,
+                targetY: 0,
+                isMoving: false,
+                isTrapped: false
+            });
+            
+            return molecule;
+        }
+        
+        // Create a secondary crystal
+        function createSecondaryCrystal(x, y) {
+            const crystal = document.createElement('div');
+            crystal.className = 'secondary-crystal';
+            crystal.textContent = 'PRECIPITATE';
+            crystal.style.left = `${x}px`;
+            crystal.style.top = `${y}px`;
+            animationArea.appendChild(crystal);
+            
+            secondaryCrystals.push(crystal);
+            return crystal;
+        }
+        
+        // Position molecules randomly in the animation area
+        function positionMoleculesRandomly() {
+            const areaWidth = animationArea.clientWidth;
+            const areaHeight = animationArea.clientHeight;
+            const crystalRect = mainCrystal.getBoundingClientRect();
+            const crystalArea = {
+                left: crystalRect.left - animationArea.getBoundingClientRect().left,
+                top: crystalRect.top - animationArea.getBoundingClientRect().top,
+                width: crystalRect.width,
+                height: crystalRect.height
+            };
+            
+            molecules.forEach(molecule => {
+                // Position outside the crystal area
+                let x, y;
+                let attempts = 0;
+                
+                do {
+                    x = Math.random() * (areaWidth - 30);
+                    y = Math.random() * (areaHeight - 30);
+                    attempts++;
+                } while (
+                    (x > crystalArea.left - 30 && x < crystalArea.left + crystalArea.width + 30 &&
+                     y > crystalArea.top - 30 && y < crystalArea.top + crystalArea.height + 30) &&
+                    attempts < 15
+                );
+                
+                molecule.x = x;
+                molecule.y = y;
+                molecule.element.style.left = `${x}px`;
+                molecule.element.style.top = `${y}px`;
+                molecule.isTrapped = false;
+            });
+        }
+        
+        // Show occlusion animation
+        function showOcclusion() {
+            resetAnimation();
+            currentDemoTitle.textContent = demoData.occlusion.title;
+            currentDemoDescription.textContent = demoData.occlusion.description;
+            
+            // Move some impurities and solvent molecules into the crystal
+            const crystalRect = mainCrystal.getBoundingClientRect();
+            const crystalCenterX = crystalRect.left - animationArea.getBoundingClientRect().left + crystalRect.width / 2;
+            const crystalCenterY = crystalRect.top - animationArea.getBoundingClientRect().top + crystalRect.height / 2;
+            
+            let trappedCount = 0;
+            molecules.forEach(molecule => {
+                if ((molecule.type === 'impurity' || molecule.type === 'solvent') && trappedCount < 5) {
+                    // Random position inside the crystal
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = Math.random() * 35;
+                    molecule.targetX = crystalCenterX + Math.cos(angle) * radius - 12;
+                    molecule.targetY = crystalCenterY + Math.sin(angle) * radius - 12;
+                    molecule.isMoving = true;
+                    molecule.isTrapped = true;
+                    trappedCount++;
+                }
+            });
+            
+            animateMolecules();
+            currentAnimation = 'occlusion';
+        }
+        
+        // Show inclusion animation
+        function showInclusion() {
+            resetAnimation();
+            currentDemoTitle.textContent = demoData.inclusion.title;
+            currentDemoDescription.textContent = demoData.inclusion.description;
+            
+            // Make impurities become part of the crystal structure (on the surface)
+            const crystalRect = mainCrystal.getBoundingClientRect();
+            const crystalCenterX = crystalRect.left - animationArea.getBoundingClientRect().left + crystalRect.width / 2;
+            const crystalCenterY = crystalRect.top - animationArea.getBoundingClientRect().top + crystalRect.height / 2;
+            
+            // Create positions on the crystal surface
+            const surfacePositions = [
+                {x: crystalCenterX - 35, y: crystalCenterY - 35},
+                {x: crystalCenterX, y: crystalCenterY - 35},
+                {x: crystalCenterX + 35, y: crystalCenterY - 35},
+                {x: crystalCenterX - 35, y: crystalCenterY},
+                {x: crystalCenterX + 35, y: crystalCenterY},
+                {x: crystalCenterX - 35, y: crystalCenterY + 35},
+                {x: crystalCenterX, y: crystalCenterY + 35},
+                {x: crystalCenterX + 35, y: crystalCenterY + 35}
+            ];
+            
+            // Move impurities to surface positions
+            let surfaceIndex = 0;
+            molecules.forEach(molecule => {
+                if (molecule.type === 'impurity' && surfaceIndex < surfacePositions.length) {
+                    molecule.targetX = surfacePositions[surfaceIndex].x - 12;
+                    molecule.targetY = surfacePositions[surfaceIndex].y - 12;
+                    molecule.isMoving = true;
+                    molecule.isTrapped = true;
+                    surfaceIndex++;
+                }
+            });
+            
+            animateMolecules();
+            currentAnimation = 'inclusion';
+        }
+        
+        // Show coprecipitation animation
+        function showCoprecipitation() {
+            resetAnimation();
+            currentDemoTitle.textContent = demoData.coprecipitation.title;
+            currentDemoDescription.textContent = demoData.coprecipitation.description;
+            
+            // Create multiple precipitate crystals
+            const areaWidth = animationArea.clientWidth;
+            const areaHeight = animationArea.clientHeight;
+            
+            // Clear main crystal
+            mainCrystal.style.display = 'none';
+            
+            // Create several precipitate crystals
+            const crystal1 = createSecondaryCrystal(areaWidth/2 - 120, areaHeight/2 - 40);
+            const crystal2 = createSecondaryCrystal(areaWidth/2 - 40, areaHeight/2 - 70);
+            const crystal3 = createSecondaryCrystal(areaWidth/2 + 40, areaHeight/2 - 60);
+            const crystal4 = createSecondaryCrystal(areaWidth/2 - 80, areaHeight/2 + 30);
+            const crystal5 = createSecondaryCrystal(areaWidth/2 + 20, areaHeight/2 + 40);
+            
+            // Show soluble impurities (pink) getting trapped between/within the precipitate mass
+            let solubleIndex = 0;
+            const trappedPositions = [
+                {x: areaWidth/2 - 80, y: areaHeight/2 - 20},
+                {x: areaWidth/2 - 20, y: areaHeight/2 - 40},
+                {x: areaWidth/2 + 60, y: areaHeight/2 - 30},
+                {x: areaWidth/2 - 60, y: areaHeight/2 + 10},
+                {x: areaWidth/2 + 10, y: areaHeight/2 + 15},
+                {x: areaWidth/2 - 100, y: areaHeight/2 + 50},
+                {x: areaWidth/2 + 50, y: areaHeight/2 + 60},
+                {x: areaWidth/2 - 30, y: areaHeight/2 + 60}
+            ];
+            
+            // Move soluble impurities to positions between crystals
+            molecules.forEach(molecule => {
+                if (molecule.type === 'soluble' && solubleIndex < trappedPositions.length) {
+                    molecule.targetX = trappedPositions[solubleIndex].x - 11;
+                    molecule.targetY = trappedPositions[solubleIndex].y - 11;
+                    molecule.isMoving = true;
+                    molecule.isTrapped = true;
+                    solubleIndex++;
+                }
+            });
+            
+            // Also show some insoluble impurities being trapped
+            let impurityIndex = 0;
+            molecules.forEach(molecule => {
+                if (molecule.type === 'impurity' && impurityIndex < 3) {
+                    const randomX = areaWidth/2 - 70 + Math.random() * 140;
+                    const randomY = areaHeight/2 - 50 + Math.random() * 100;
+                    molecule.targetX = randomX - 12;
+                    molecule.targetY = randomY - 12;
+                    molecule.isMoving = true;
+                    molecule.isTrapped = true;
+                    impurityIndex++;
+                }
+            });
+            
+            animateMolecules();
+            currentAnimation = 'coprecipitation';
+        }
+        
+        // Show adsorption animation
+        function showAdsorption() {
+            resetAnimation();
+            currentDemoTitle.textContent = demoData.adsorption.title;
+            currentDemoDescription.textContent = demoData.adsorption.description;
+            
+            // Make sure main crystal is visible
+            mainCrystal.style.display = 'flex';
+            
+            // Move adsorbed particles to the surface of the crystal
+            const crystalRect = mainCrystal.getBoundingClientRect();
+            const crystalLeft = crystalRect.left - animationArea.getBoundingClientRect().left;
+            const crystalTop = crystalRect.top - animationArea.getBoundingClientRect().top;
+            const crystalWidth = crystalRect.width;
+            const crystalHeight = crystalRect.height;
+            
+            // Positions around the crystal surface
+            const surfacePositions = [
+                // Top surface
+                {x: crystalLeft + 25, y: crystalTop - 15},
+                {x: crystalLeft + 50, y: crystalTop - 15},
+                {x: crystalLeft + 75, y: crystalTop - 15},
+                // Right surface
+                {x: crystalLeft + crystalWidth + 15, y: crystalTop + 25},
+                {x: crystalLeft + crystalWidth + 15, y: crystalTop + 50},
+                {x: crystalLeft + crystalWidth + 15, y: crystalTop + 75},
+                // Bottom surface
+                {x: crystalLeft + 25, y: crystalTop + crystalHeight + 15},
+                {x: crystalLeft + 50, y: crystalTop + crystalHeight + 15},
+                {x: crystalLeft + 75, y: crystalTop + crystalHeight + 15},
+                // Left surface
+                {x: crystalLeft - 15, y: crystalTop + 25},
+                {x: crystalLeft - 15, y: crystalTop + 50},
+                {x: crystalLeft - 15, y: crystalTop + 75}
+            ];
+            
+            // Move adsorbed particles to surface positions
+            let surfaceIndex = 0;
+            molecules.forEach(molecule => {
+                if (molecule.type === 'adsorbed' && surfaceIndex < surfacePositions.length) {
+                    molecule.targetX = surfacePositions[surfaceIndex].x - 11;
+                    molecule.targetY = surfacePositions[surfaceIndex].y - 11;
+                    molecule.isMoving = true;
+                    molecule.isTrapped = true;
+                    surfaceIndex++;
+                }
+            });
+            
+            animateMolecules();
+            currentAnimation = 'adsorption';
+        }
+        
+        // Animate molecules to their target positions
+        function animateMolecules() {
+            let animationFrame;
+            
+            function animate() {
+                let allStopped = true;
+                
+                molecules.forEach(molecule => {
+                    if (molecule.isMoving) {
+                        const dx = molecule.targetX - molecule.x;
+                        const dy = molecule.targetY - molecule.y;
+                        
+                        // Move toward target
+                        molecule.x += dx * 0.06;
+                        molecule.y += dy * 0.06;
+                        
+                        molecule.element.style.left = `${molecule.x}px`;
+                        molecule.element.style.top = `${molecule.y}px`;
+                        
+                        // Check if close enough to target
+                        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
+                            molecule.isMoving = false;
+                        } else {
+                            allStopped = false;
+                        }
+                    }
+                });
+                
+                if (!allStopped) {
+                    animationFrame = requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+            
+            // Store animation frame ID for cleanup
+            window.currentAnimationFrame = animationFrame;
+        }
+        
+        // Clear all molecules and crystals
+        function clearMolecules() {
+            // Cancel any ongoing animation
+            if (window.currentAnimationFrame) {
+                cancelAnimationFrame(window.currentAnimationFrame);
+            }
+            
+            // Remove molecules
+            molecules.forEach(molecule => {
+                if (molecule.element.parentNode === animationArea) {
+                    animationArea.removeChild(molecule.element);
+                }
+            });
+            
+            molecules = [];
+            
+            // Remove secondary crystals
+            secondaryCrystals.forEach(crystal => {
+                if (crystal.parentNode === animationArea) {
+                    animationArea.removeChild(crystal);
+                }
+            });
+            
+            secondaryCrystals = [];
+            
+            // Make sure main crystal is visible
+            mainCrystal.style.display = 'flex';
+        }
+        
+        // Reset animation to initial state
+        function resetAnimation() {
+            clearMolecules();
+            
+            // Reset demo text
+            currentDemoTitle.textContent = "Select a phenomenon to visualize";
+            currentDemoDescription.textContent = "Click on any of the buttons above to see a visualization of how each phenomenon occurs at the molecular level.";
+            
+            // Reinitialize molecules
+            initializeMolecules();
+            currentAnimation = null;
+        }
+        
+        // Show a random motivational message
+        function showMotivationalMessage() {
+            // Get a random message
+            const randomIndex = Math.floor(Math.random() * motivationalMessages.length);
+            const randomMessage = motivationalMessages[randomIndex];
+            
+            // Get a random icon
+            const randomIconIndex = Math.floor(Math.random() * messageIcons.length);
+            const randomIconClass = messageIcons[randomIconIndex];
+            
+            // Update modal content
+            messageText.textContent = randomMessage;
+            messageIcon.className = randomIconClass;
+            
+            // Show the modal
+            messageModal.style.display = 'flex';
+        }
+        
+        // Close the message modal
+        function closeMessageModal() {
+            messageModal.style.display = 'none';
+        }
+        
+        // Event listeners for animation buttons
+        occlusionBtn.addEventListener('click', showOcclusion);
+        inclusionBtn.addEventListener('click', showInclusion);
+        coprecipitationBtn.addEventListener('click', showCoprecipitation);
+        adsorptionBtn.addEventListener('click', showAdsorption);
+        resetBtn.addEventListener('click', resetAnimation);
+        
+        // Event listeners for message modal
+        messageBtn.addEventListener('click', showMotivationalMessage);
+        closeMessage.addEventListener('click', closeMessageModal);
+        
+        // Close modal when clicking outside
+        messageModal.addEventListener('click', (e) => {
+            if (e.target === messageModal) {
+                closeMessageModal();
+            }
+        });
+        
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initializeMolecules();
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (currentAnimation) {
+                // If an animation is running, reset and show it again
+                const tempAnimation = currentAnimation;
+                resetAnimation();
+                
+                switch(tempAnimation) {
+                    case 'occlusion': showOcclusion(); break;
+                    case 'inclusion': showInclusion(); break;
+                    case 'coprecipitation': showCoprecipitation(); break;
+                    case 'adsorption': showAdsorption(); break;
+                }
+            } else {
+                // Just reposition molecules
+                positionMoleculesRandomly();
+            }
+        });
+        
+        // Prevent zooming on double-tap on mobile
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        // Improve touch scrolling
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

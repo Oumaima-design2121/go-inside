@@ -3,125 +3,748 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>form</title>
+    <title>Function Series: All Concepts & Tricks</title>
     <style>
-        body{
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+        
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-image: linear-gradient(to right ,rgb(91, 41, 82) ,transparent),url(flora\ min.jpg);
-            background-attachment: fixed;
-            background-position: center;
-            background-color: rgba(103, 35, 105, 0.845);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .whole-form{
-            height: 100vh;
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .content-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            border-bottom: 4px solid var(--secondary);
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 25px 0 15px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        h3:before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        .trick-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .trick-box:before {
+            content: "TRICK";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .formula {
+            background-color: #fff8e1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #ffd54f;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 1.1em;
+            overflow-x: auto;
+        }
+        
+        .formula katex {
+            font-size: 1.2em !important;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .key-point {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .code {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+        }
+        
+        .math-symbol {
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .nav-tabs {
             display: flex;
-            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .tab:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .tab.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .example-header {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
             align-items: center;
         }
-        .form{
-            background-color:rgba(107, 17, 107, 0.554);
-            padding: 40px 30px;
-            border: 2px solid white;
-            border-radius: 30px;
-            box-sizing: border-box;
-            box-shadow: 0 0 15px white;
+        
+        .example-header:before {
+            content: "📝";
+            margin-right: 10px;
         }
-        .title h1{
-            font-size: 40px;
-            font-family: Arial, Helvetica, sans-serif;
+        
+        .step-list {
+            counter-reset: step-counter;
+            margin: 20px 0;
+        }
+        
+        .step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .step:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--secondary);
             color: white;
-            text-shadow: 0 0 10px rgb(101, 101, 101);
-            margin-top: 5px;
-            text-align: center;
-        }
-        .filling-input{
-            height: 45px;
-        }
-        .filling-input input{
-            width: 100%;
+            width: 30px;
             height: 30px;
-            background-color: rgba(90, 21, 93, 0.926);
-            border: 2px solid white;
-            outline: none;
-            border-radius: 20px;
-        }
-        .filling-input input::placeholder{
-            color: white;
-            padding: 5px;
-        }
-        .forget-remember{
-            margin-top: 5px;
-        }
-        .forget-remember label{
-            color: white;
-            position: relative;
-            right: 10px;
-        }
-        .forget-remember a{
-            text-decoration: none;
-            color: white;
-            position: relative;
-            left: 10px;
-        }
-        .forget-remember a:hover{
-            text-decoration: underline;
-            color: white;
-        }
-        .btn{
-            margin-top: 20px;
-            width: 100%;
-            height: 35px;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-            color: rgb(78, 8, 88);
-            font-size: 18px;
-            font-family: 'Times New Roman', Times, serif;
-        }
-        .btn:hover{
-            scale: 1.1;
-        }
-        .new-account{
-            margin-top: 20px;
-        }
-        .new-account a{
-            color: white;
-            text-decoration: none;
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
+            font-weight: bold;
         }
-        .new-account:hover{
-            text-decoration: underline;
-            color: white;
-        }    
+        
+        .quick-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .tip {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .tip:before {
+            content: "💡";
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-box {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-tips {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 </head>
 <body>
-    <div class="whole-form">
-        <form class="form">
-            <div class="title">
-                <h1>Login</h1>
-            </div>
-            <div class="filling-input">
-                <input type="text" placeholder="Username" required>
-            </div>
-            <div class="filling-input">
-                <input type="password" placeholder="password" required>
-            </div>
-            <div class="forget-remember">
-                <label ><input type="checkbox" >Remember me</label>
-                <a href="#">Forget your password?</a>
-            </div>
-            <button class="btn" type="submit">Login</button>
-            <div class="new-account">
-                <a href="#">Don't have an account ?</a>
+    <div class="container">
+        <div class="content-box">
+            <h1>Function Series: Complete Mastery Guide</h1>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">All definitions, theorems, tricks, and problem-solving strategies</p>
+            
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <div class="tab active" onclick="showTab('basics')">Basics</div>
+                <div class="tab" onclick="showTab('convergence')">Convergence Types</div>
+                <div class="tab" onclick="showTab('tests')">All Tests</div>
+                <div class="tab" onclick="showTab('tricks')">All Tricks</div>
+                <div class="tab" onclick="showTab('examples')">Examples</div>
+                <div class="tab" onclick="showTab('advanced')">Advanced</div>
             </div>
             
-
-        </form>
+            <!-- BASICS TAB -->
+            <div id="basics" class="tab-content active">
+                <h2>1. Basic Definitions</h2>
+                
+                <div class="key-point">
+                    <h3>Function Series Definition</h3>
+                    <p>A function series is an infinite sum of functions:</p>
+                    <div class="formula">
+                        \[S(x) = \sum_{n=1}^{\infty} f_n(x) = f_1(x) + f_2(x) + f_3(x) + \cdots\]
+                    </div>
+                    <p>The partial sum is: <span class="code">S_n(x) = f_1(x) + f_2(x) + ... + f_n(x)</span></p>
+                </div>
+                
+                <h3>Key Questions to Ask:</h3>
+                <div class="step-list">
+                    <div class="step">For which x does the series converge? (Domain of convergence)</div>
+                    <div class="step">What type of convergence do we have? (Pointwise, uniform, absolute, normal)</div>
+                    <div class="step">What properties does the sum function S(x) inherit? (Continuity, differentiability, integrability)</div>
+                    <div class="step">Can we interchange operations? (lim ∑ = ∑ lim, d/dx ∑ = ∑ d/dx, ∫∑ = ∑∫)</div>
+                </div>
+            </div>
+            
+            <!-- CONVERGENCE TYPES TAB -->
+            <div id="convergence" class="tab-content">
+                <h2>2. Types of Convergence</h2>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h3>Pointwise Convergence</h3>
+                        <p><strong>Definition:</strong> For each fixed x, S_n(x) → S(x) as n → ∞</p>
+                        <p><strong>Symbolically:</strong> ∀x, ∀ε>0, ∃N(ε,x) such that n>N ⇒ |S_n(x)-S(x)|<ε</p>
+                        <p><strong>Key feature:</strong> N depends on both ε AND x</p>
+                        <div class="warning-box">
+                            <strong>⚠ Weak:</strong> Does NOT preserve continuity, integrability, or differentiability
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h3>Uniform Convergence</h3>
+                        <p><strong>Definition:</strong> sup_{x∈D}|S_n(x)-S(x)| → 0 as n → ∞</p>
+                        <p><strong>Symbolically:</strong> ∀ε>0, ∃N(ε) such that ∀x, n>N ⇒ |S_n(x)-S(x)|<ε</p>
+                        <p><strong>Key feature:</strong> N depends ONLY on ε, not on x</p>
+                        <div class="key-point">
+                            <strong>✅ Strong:</strong> Preserves continuity and allows term-by-term integration
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h3>Absolute Convergence</h3>
+                        <p><strong>Definition:</strong> ∑|f_n(x)| converges for each x</p>
+                        <p><strong>Key feature:</strong> Convergence "in magnitude" - no cancellation needed</p>
+                        <p><strong>Implication:</strong> Allows rearrangement of terms without changing sum</p>
+                    </div>
+                    
+                    <div class="comparison-card">
+                        <h3>Normal Convergence</h3>
+                        <p><strong>Definition:</strong> ∑ sup_{x∈D}|f_n(x)| converges</p>
+                        <p><strong>Key feature:</strong> Strongest type of convergence</p>
+                        <div class="key-point">
+                            <strong>✅ Implies:</strong> Uniform + Absolute convergence
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="formula">
+                    <strong>Hierarchy:</strong> Normal ⇒ Uniform ⇒ Pointwise<br>
+                    Normal ⇒ Absolute (but Uniform ⇏ Absolute)
+                </div>
+            </div>
+            
+            <!-- TESTS TAB -->
+            <div id="tests" class="tab-content">
+                <h2>3. Complete Set of Convergence Tests</h2>
+                
+                <h3>For Pointwise Convergence:</h3>
+                <div class="trick-box">
+                    <h4>Test 1: Fix x and Use Numerical Series Tests</h4>
+                    <p>Treat x as constant and apply:</p>
+                    <ul>
+                        <li><strong>Ratio Test:</strong> lim|f_{n+1}(x)/f_n(x)| < 1</li>
+                        <li><strong>Root Test:</strong> lim|f_n(x)|^{1/n} < 1</li>
+                        <li><strong>Comparison Test:</strong> Compare with known convergent series</li>
+                        <li><strong>Alternating Series Test:</strong> For (-1)^n f_n(x) where f_n(x) ↓ 0</li>
+                    </ul>
+                </div>
+                
+                <h3>For Uniform Convergence:</h3>
+                <div class="trick-box">
+                    <h4>Test 2: Weierstrass M-Test (Most Important)</h4>
+                    <p><strong>Condition:</strong> Find M_n such that |f_n(x)| ≤ M_n for all x∈D, and ∑M_n converges</p>
+                    <p><strong>Conclusion:</strong> ∑f_n converges absolutely and uniformly on D</p>
+                    <p><strong>Trick:</strong> M_n = sup_{x∈D}|f_n(x)|</p>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Test 3: Cauchy Criterion for Uniform Convergence</h4>
+                    <p><strong>Condition:</strong> ∀ε>0, ∃N such that for all m>n>N and all x∈D:</p>
+                    <div class="formula">\[|f_{n+1}(x) + f_{n+2}(x) + \cdots + f_m(x)| < \varepsilon\]</div>
+                    <p><strong>Use when:</strong> M-test fails but you suspect uniform convergence</p>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Test 4: Dirichlet Test for Uniform Convergence</h4>
+                    <p><strong>Conditions:</strong></p>
+                    <ol>
+                        <li>Partial sums A_n(x) = ∑_{k=1}^n a_k(x) are uniformly bounded</li>
+                        <li>b_n(x) ↓ 0 uniformly (monotone decreasing to 0 uniformly)</li>
+                    </ol>
+                    <p><strong>Conclusion:</strong> ∑a_n(x)b_n(x) converges uniformly</p>
+                    <p><strong>Typical use:</strong> For series like ∑ sin(nx)/n or ∑ cos(nx)/n</p>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Test 5: Abel Test for Uniform Convergence</h4>
+                    <p><strong>Conditions:</strong></p>
+                    <ol>
+                        <li>∑a_n(x) converges uniformly</li>
+                        <li>b_n(x) is monotone in n for each x and uniformly bounded</li>
+                    </ol>
+                    <p><strong>Conclusion:</strong> ∑a_n(x)b_n(x) converges uniformly</p>
+                </div>
+                
+                <h3>For Normal Convergence:</h3>
+                <div class="trick-box">
+                    <h4>Test 6: Direct Supremum Test</h4>
+                    <p><strong>Procedure:</strong></p>
+                    <ol>
+                        <li>Compute M_n = sup_{x∈D}|f_n(x)|</li>
+                        <li>Check if ∑M_n converges</li>
+                    </ol>
+                    <p><strong>Conclusion:</strong> If ∑M_n converges, we have normal convergence</p>
+                </div>
+            </div>
+            
+            <!-- TRICKS TAB -->
+            <div id="tricks" class="tab-content">
+                <h2>4. Complete Collection of Tricks (25+ Tricks)</h2>
+                
+                <div class="quick-tips">
+                    <div class="tip">Fix x first when testing pointwise convergence</div>
+                    <div class="tip">For uniform convergence, find sup|f_n(x)| over the domain</div>
+                    <div class="tip">Use M-test when terms are positive or bounded by positive series</div>
+                    <div class="tip">For trigonometric series, try Dirichlet or Abel test</div>
+                    <div class="tip">Check endpoints separately for power series</div>
+                    <div class="tip">Uniform convergence on [a,b] ⇒ can integrate term-by-term</div>
+                </div>
+                
+                <h3>Trick Category 1: Problem-Solving Strategies</h3>
+                
+                <div class="trick-box">
+                    <h4>Trick 1: The "Divide and Conquer" Strategy</h4>
+                    <p>When a series doesn't converge uniformly on the whole domain, break the domain into parts:</p>
+                    <ol>
+                        <li>Find where problems occur (usually at boundaries or singular points)</li>
+                        <li>Restrict to subdomains away from problem points</li>
+                        <li>Prove uniform convergence on each subdomain</li>
+                    </ol>
+                    <p><strong>Example:</strong> ∑x^n/n converges uniformly on [0,r] for any r<1, but not on [0,1)</p>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Trick 2: The "ε/2" or "ε/3" Method</h4>
+                    <p>When proving uniform convergence from pointwise convergence:</p>
+                    <div class="formula">
+                        \[|S_n(x) - S(x)| \leq |S_n(x) - S_m(x)| + |S_m(x) - S(x)|\]
+                    </div>
+                    <p>Make each term < ε/2 using:</p>
+                    <ul>
+                        <li>First term: Cauchy criterion (choose m,n large, independent of x)</li>
+                        <li>Second term: Pointwise convergence (m fixed, then n large)</li>
+                    </ul>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Trick 3: Summation by Parts (Abel Transformation)</h4>
+                    <p>For proving Dirichlet/Abel tests:</p>
+                    <div class="formula">
+                        \[\sum_{k=m+1}^n a_k b_k = A_n b_n - A_m b_{m+1} - \sum_{k=m+1}^{n-1} A_k (b_{k+1} - b_k)\]
+                    </div>
+                    <p>where \(A_k = \sum_{j=1}^k a_j\)</p>
+                </div>
+                
+                <h3>Trick Category 2: Boundary and Endpoint Tricks</h3>
+                
+                <div class="trick-box">
+                    <h4>Trick 4: Endpoint Analysis for Power Series</h4>
+                    <p>For power series ∑a_n x^n with radius R:</p>
+                    <ol>
+                        <li>At x = R: Try alternating series test or Dirichlet test</li>
+                        <li>At x = -R: Check absolute convergence or conditional convergence</li>
+                        <li>Use Abel's theorem: If ∑a_n R^n converges, then series converges uniformly on [0,R]</li>
+                    </ol>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Trick 5: Handling Singular Points</h4>
+                    <p>For series like ∑1/(1+n^2x^2) on (0,∞):</p>
+                    <ul>
+                        <li>Problem at x=0 (terms → 1 as x→0)</li>
+                        <li>Fix: On [δ,∞) for any δ>0, series converges uniformly</li>
+                        <li>On (0,∞), no uniform convergence (supremum of tail = 1)</li>
+                    </ul>
+                </div>
+                
+                <h3>Trick Category 3: Trigonometric Series Tricks</h3>
+                
+                <div class="trick-box">
+                    <h4>Trick 6: Bounding Partial Sums of sin(nx) or cos(nx)</h4>
+                    <p>Use the formula:</p>
+                    <div class="formula">
+                        \[\left|\sum_{k=1}^n \sin(kx)\right| \leq \frac{1}{|\sin(x/2)|} \quad (\text{for } x \neq 2m\pi)\]
+                    </div>
+                    <p>This gives uniform boundedness for x away from multiples of 2π.</p>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Trick 7: Dirichlet Kernel Technique</h4>
+                    <p>For series ∑a_n sin(nx) or ∑a_n cos(nx):</p>
+                    <div class="formula">
+                        \[\sum_{k=1}^n \cos(kx) = \frac{\sin((n+1/2)x) - \sin(x/2)}{2\sin(x/2)}\]
+                    </div>
+                    <p>This shows partial sums are bounded by 1/|sin(x/2)|.</p>
+                </div>
+                
+                <h3>Trick Category 4: Integration and Differentiation Tricks</h3>
+                
+                <div class="trick-box">
+                    <h4>Trick 8: Term-by-Term Integration Test</h4>
+                    <p>To check if ∫∑f_n = ∑∫f_n:</p>
+                    <ol>
+                        <li>Check if ∑f_n converges uniformly on [a,b]</li>
+                        <li>OR: Check if ∑f_n converges pointwise and there's a convergent majorant ∑M_n with |f_n(x)| ≤ M_n</li>
+                    </ol>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Trick 9: Term-by-Term Differentiation Test</h4>
+                    <p>To check if d/dx(∑f_n) = ∑f_n':</p>
+                    <ol>
+                        <li>Check if ∑f_n converges pointwise on I</li>
+                        <li>Check if ∑f_n' converges uniformly on I</li>
+                        <li>Then the equality holds on I</li>
+                    </ol>
+                </div>
+                
+                <h3>Trick Category 5: Special Series Tricks</h3>
+                
+                <div class="trick-box">
+                    <h4>Trick 10: Geometric Series with Variable Ratio</h4>
+                    <p>For ∑r(x)^n:</p>
+                    <ul>
+                        <li>Converges pointwise when |r(x)| < 1</li>
+                        <li>Converges uniformly on sets where |r(x)| ≤ ρ < 1</li>
+                        <li>Sum = 1/(1-r(x)) when convergent</li>
+                    </ul>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Trick 11: Alternating Series with x-dependence</h4>
+                    <p>For ∑(-1)^n a_n(x):</p>
+                    <ol>
+                        <li>Check if a_n(x) ↓ 0 uniformly</li>
+                        <li>If yes, series converges uniformly by alternating series test</li>
+                        <li>Error bound: |R_n(x)| ≤ a_{n+1}(x) (uniform if a_n(x) ↓ 0 uniformly)</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- EXAMPLES TAB -->
+            <div id="examples" class="tab-content">
+                <h2>5. Worked Examples with All Tricks Applied</h2>
+                
+                <div class="example-box">
+                    <div class="example-header">Example 1: ∑ x^n/n on [0,1)</div>
+                    <div class="step-list">
+                        <div class="step"><strong>Pointwise convergence:</strong> For each x∈[0,1), ratio test gives lim|(x^{n+1}/(n+1))/(x^n/n)| = x < 1, so converges. At x=1, harmonic series diverges.</div>
+                        <div class="step"><strong>Uniform convergence?</strong> Check sup_{x∈[0,1)} |R_n(x)| where R_n(x) = ∑_{k=n+1}^∞ x^k/k. As x→1⁻, R_n(x) → ∑_{k=n+1}^∞ 1/k which diverges, so NOT uniform on [0,1).</div>
+                        <div class="step"><strong>But:</strong> On [0,r] for any r<1, we have |x^n/n| ≤ r^n/n, and ∑r^n/n converges (by ratio test), so uniform convergence on [0,r] by M-test.</div>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-header">Example 2: ∑ sin(nx)/n^2 on ℝ</div>
+                    <div class="step-list">
+                        <div class="step">|sin(nx)/n^2| ≤ 1/n^2 for all x∈ℝ</div>
+                        <div class="step">∑1/n^2 converges (p-series with p=2)</div>
+                        <div class="step">By Weierstrass M-test with M_n=1/n^2, series converges absolutely and uniformly on ℝ</div>
+                        <div class="step">Also normal convergence since sup|sin(nx)/n^2| = 1/n^2 and ∑1/n^2 converges</div>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-header">Example 3: ∑ (-1)^n/√n • x^n on [-1,1]</div>
+                    <div class="step-list">
+                        <div class="step"><strong>Radius of convergence:</strong> R = 1 (by ratio test)</div>
+                        <div class="step"><strong>At x=1:</strong> ∑(-1)^n/√n converges by alternating series test</div>
+                        <div class="step"><strong>At x=-1:</strong> ∑1/√n diverges (p-series with p=1/2 < 1)</div>
+                        <div class="step"><strong>Uniform convergence on [0,1]:</strong> Use Abel's test with a_n(x)=(-1)^nx^n and b_n=1/√n</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ADVANCED TAB -->
+            <div id="advanced" class="tab-content">
+                <h2>6. Advanced Techniques and Theorems</h2>
+                
+                <div class="trick-box">
+                    <h4>Advanced Trick 1: Dini's Theorem</h4>
+                    <p><strong>Theorem:</strong> If f_n are continuous on compact K, f_n → f pointwise, f continuous, and f_n monotone in n for each x, then convergence is uniform.</p>
+                    <p><strong>Use when:</strong> You have monotone convergence of continuous functions to a continuous limit on a compact set.</p>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Advanced Trick 2: Arzelà-Ascoli Theorem for Series</h4>
+                    <p><strong>Application:</strong> For proving uniform convergence when you have:</p>
+                    <ol>
+                        <li>Uniform boundedness: |f_n(x)| ≤ M for all n,x</li>
+                        <li>Equicontinuity: ∀ε>0, ∃δ>0 such that |x-y|<δ ⇒ |f_n(x)-f_n(y)|<ε for all n</li>
+                    </ol>
+                </div>
+                
+                <div class="trick-box">
+                    <h4>Advanced Trick 3: Cauchy Integral Test for Function Series</h4>
+                    <p>If f_n(x) = ∫_a^b g_n(x,t) dt and ∑g_n converges uniformly in t, then:</p>
+                    <div class="formula">
+                        \[\sum \int_a^b g_n(x,t) dt = \int_a^b \sum g_n(x,t) dt\]
+                    </div>
+                </div>
+                
+                <h3>Common Pitfalls to Avoid</h3>
+                <table>
+                    <tr>
+                        <th>Pitfall</th>
+                        <th>Why It's Wrong</th>
+                        <th>Correct Approach</th>
+                    </tr>
+                    <tr>
+                        <td>Assuming pointwise ⇒ uniform</td>
+                        <td>Counterexample: ∑x^n on [0,1)</td>
+                        <td>Always check sup|R_n(x)| → 0</td>
+                    </tr>
+                    <tr>
+                        <td>Assuming uniform ⇒ normal</td>
+                        <td>∑(-1)^n/n converges uniformly but not normally</td>
+                        <td>Check ∑sup|f_n| convergence</td>
+                    </tr>
+                    <tr>
+                        <td>Interchanging limits without justification</td>
+                        <td>lim ∑ ≠ ∑ lim in general</td>
+                        <td>Need uniform convergence</td>
+                    </tr>
+                    <tr>
+                        <td>Ignoring endpoint behavior</td>
+                        <td>Series may behave differently at boundaries</td>
+                        <td>Test endpoints separately</td>
+                    </tr>
+                </table>
+                
+                <div class="key-point">
+                    <h3>Final Mastery Checklist</h3>
+                    <ul>
+                        <li>✓ Can distinguish pointwise vs uniform vs normal convergence</li>
+                        <li>✓ Know when to use Weierstrass, Dirichlet, or Abel tests</li>
+                        <li>✓ Can handle trigonometric series with bounding tricks</li>
+                        <li>✓ Understand when term-by-term operations are valid</li>
+                        <li>✓ Can analyze power series radius and endpoint behavior</li>
+                        <li>✓ Know common counterexamples and pitfalls</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666;">
+                <p><strong>Function Series Mastery Guide</strong> • Study each tab thoroughly • Practice with many examples</p>
+                <p>Remember: Understanding beats memorization. Know WHY each trick works.</p>
+            </div>
+        </div>
     </div>
-    
-</body>
 
+    <script>
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Initialize KaTeX rendering
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ],
+                throwOnError: false
+            });
+        });
+        
+        // Add click effect to trick boxes
+        document.querySelectorAll('.trick-box').forEach(box => {
+            box.addEventListener('click', function() {
+                this.style.transform = 'scale(0.99)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
 </html>
